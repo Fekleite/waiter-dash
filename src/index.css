@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-500: oklch(0.5766 0.2025 25.05);
+  --color-brand-300: oklch(0.8232 0.0992 17.87);
+  --color-brand-700: oklch(0.407 0.154 26.74);
+
+  --color-gray-500: oklch(0.3211 0 0);
+  --color-gray-400: oklch(0.5103 0 0);
+  --color-gray-300: oklch(0.683 0 0);
+  --color-gray-200: oklch(0.8452 0 0);
+  --color-gray-100: oklch(0.9851 0 0);
+  --color-gray-0: oklch(1 0 0);
+
+  --font-sans: "DM Sans", sans-serif;
+}
+
+* {
+  @apply font-sans;
+}
+
+body {
+  @apply bg-gray-0 text-gray-500;
+}
+
+button {
+  @apply cursor-pointer text-gray-500;
+}

@@ -12,7 +12,8 @@
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "space",
-    "lineEnding": "crlf"
+    "lineEnding": "crlf",
+    "bracketSpacing": true
 	},
 	"linter": {
 		"enabled": true,
@@ -20,6 +21,13 @@
 			"recommended": true,
       "style": {
         "noNonNullAssertion": "off"
+      },
+      "nursery": {
+        "useSortedClasses": {
+          "fix": "safe",
+          "level": "error",
+          "options": {}
+        }
       }
 		}
 	},

@@ -1,7 +1,9 @@
+import { MenuSidebar } from './components/menu';
+
 export function App() {
   return (
     <div>
-      <h1>Hello Waiter</h1>
+      <MenuSidebar />
     </div>
   );
 }

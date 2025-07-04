@@ -1,5 +1,6 @@
 import { Container } from './components/container';
 import { Header } from './components/header';
+import { Board } from './components/kanban/board';
 import { MenuSidebar } from './components/menu';
 
 export function App() {
@@ -14,7 +15,9 @@ export function App() {
           icon="home"
         />
 
-        <main>Welcome to the Waiter Dashboard!</main>
+        <main>
+          <Board />
+        </main>
       </Container>
     </div>
   );

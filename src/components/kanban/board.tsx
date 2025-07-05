@@ -26,7 +26,7 @@ export function Board({ orders }: Readonly<BoardProps>) {
   }, {} as OrdersByStatus);
 
   return (
-    <div className="grid grid-cols-3 gap-8">
+    <div className="grid grid-cols-3 items-start gap-8">
       {boardItems.map((item) => (
         <div
           key={item.id}

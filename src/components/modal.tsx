@@ -1,5 +1,6 @@
 import { X } from 'lucide-react';
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 interface ModalProps {
   isOpen: boolean;
@@ -30,14 +31,14 @@ export function Modal({
     };
   }, [onClose, isOpen]);
 
-  return (
+  return createPortal(
     <div
       className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 transition-opacity ${
         isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
       }`}
       role="dialog"
     >
-      <div className="relative w-full max-w-lg rounded-lg bg-white p-6">
+      <div className="relative w-full max-w-lg rounded-lg bg-white p-8">
         <header className="mb-8 flex items-center justify-between">
           <h1 className="font-semibold text-2xl">{title}</h1>
 
@@ -49,6 +50,7 @@ export function Modal({
 
         <div>{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

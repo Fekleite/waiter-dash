@@ -3,7 +3,5 @@ interface ContainerProps {
 }
 
 export function Container({ children }: Readonly<ContainerProps>) {
-  return (
-    <div className="mt-10 ml-28 flex flex-col gap-12 px-9">{children}</div>
-  );
+  return <div className="my-10 w-full px-9">{children}</div>;
 }

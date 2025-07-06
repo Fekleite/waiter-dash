@@ -9,7 +9,7 @@ import {
 
 export function MenuSidebar() {
   return (
-    <aside className="fixed top-0 bottom-0 left-0 z-10 flex h-screen w-28 flex-col bg-gray-0">
+    <aside className="flex h-screen w-28 flex-col bg-gray-0">
       <header className="flex w-full items-center justify-center py-10">
         <span className="font-extralight text-2xl text-gray-400">
           <strong className="font-bold">W</strong>A

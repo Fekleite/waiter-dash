@@ -6,16 +6,18 @@ export const OrderStatus = {
   DONE: 'DONE' as OrderStatus,
 };
 
+export interface Product {
+  name: string;
+  imagePath: string;
+  price: number;
+}
+
 export interface Order {
   _id: string;
   table: string;
   status: OrderStatus;
   products: {
-    product: {
-      name: string;
-      imagePath: string;
-      price: number;
-    };
+    product: Product;
     quantity: number;
     _id: string;
   }[];

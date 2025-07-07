@@ -58,9 +58,9 @@ export function Board({ orders }: Readonly<BoardProps>) {
             </span>
           </header>
 
-          <div className="flex flex-col gap-6">
-            {ordersByStatus[item.id]?.length &&
-              ordersByStatus[item.id]!.map((order) => (
+          {ordersByStatus[item.id]?.length && (
+            <div className="flex flex-col gap-6">
+              {ordersByStatus[item.id]!.map((order) => (
                 <Card
                   key={order._id}
                   quantity={order.products.length}
@@ -68,7 +68,8 @@ export function Board({ orders }: Readonly<BoardProps>) {
                   onClick={() => handleOpenModal(order)}
                 />
               ))}
-          </div>
+            </div>
+          )}
         </div>
       ))}
 

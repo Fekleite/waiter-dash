@@ -26,3 +26,7 @@ body {
 button {
   @apply cursor-pointer text-gray-500;
 }
+
+button:disabled {
+  @apply cursor-not-allowed text-gray-200;
+}

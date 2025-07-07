@@ -20,9 +20,11 @@ export function Header({ title, subtitle, icon }: Readonly<HeaderProps>) {
         <p className="font-medium text-gray-400">{subtitle}</p>
       </div>
 
-      <button type="button" className="flex items-center gap-2">
-        <RefreshCcw className="size-6 text-brand-500" />
-        <span className="font-semibold text-brand-500">Reiniciar o dia</span>
+      <button type="button" className="group flex items-center gap-2" disabled>
+        <RefreshCcw className="size-6 text-brand-500 group-disabled:text-gray-200" />
+        <span className="font-semibold text-brand-500 group-disabled:text-gray-200">
+          Reiniciar o dia
+        </span>
       </button>
     </header>
   );

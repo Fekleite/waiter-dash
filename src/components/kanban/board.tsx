@@ -1,24 +1,21 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { boardItems } from '@/constants/order-status';
+import { getOrders } from '@/services/orders/get-orders';
 import type { Order, OrderStatus } from '@/types/orders';
-
 import { Button } from '../button';
 import { Modal } from '../modal';
 import { Details } from '../order/details';
 import { Card } from './card';
 
-interface BoardProps {
-  orders: Order[];
-}
-
 type OrdersByStatus = {
   [key in OrderStatus]?: Order[];
 };
 
-export function Board({ orders }: Readonly<BoardProps>) {
+export function Board() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [orders, setOrders] = useState<Order[]>([]);
 
   function handleOpenModal(order: Order) {
     setIsModalOpen(true);
@@ -29,6 +26,16 @@ export function Board({ orders }: Readonly<BoardProps>) {
     setIsModalOpen(false);
     setSelectedOrder(null);
   }
+
+  const handleGetOrders = useCallback(async () => {
+    const { data } = await getOrders();
+
+    setOrders(data);
+  }, []);
+
+  useEffect(() => {
+    handleGetOrders();
+  }, [handleGetOrders]);
 
   const ordersByStatus = orders.reduce((acc, order) => {
     if (!acc[order.status]) {

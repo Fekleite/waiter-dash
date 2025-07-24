@@ -5,8 +5,8 @@ import { boardItems } from '@/constants/order-status';
 
 import { cancelOrder } from '@/services/orders/cancel-order';
 import { getOrders } from '@/services/orders/get-orders';
+import { updateOrderStatus } from '@/services/orders/update-order-status';
 import type { Order, OrderStatus } from '@/types/orders';
-
 import { Button } from '../button';
 import { Modal } from '../modal';
 import { Details } from '../order/details';
@@ -77,6 +77,36 @@ export function Board() {
     }
   }
 
+  async function handleUpdateOrderStatus() {
+    try {
+      setIsLoading(true);
+
+      const orderId = selectedOrder!._id;
+      const status = selectedOrder!.status;
+
+      const newStatus = status === 'WAITING' ? 'IN_PRODUCTION' : 'DONE';
+
+      await updateOrderStatus({
+        params: { orderId },
+        body: { status: newStatus },
+      });
+
+      toast.success(
+        `Pedido da mesa ${selectedOrder?.table} teve o status atualizado!`,
+      );
+    } catch (error) {
+      console.error('Error updating order status:', error);
+
+      toast.error(
+        'Erro ao atualizar o status do pedido. Tente novamente mais tarde.',
+      );
+    } finally {
+      setIsLoading(false);
+      handleCloseModal();
+      await handleGetOrders();
+    }
+  }
+
   return (
     <div className="grid grid-cols-3 items-start gap-8">
       {boardItems.map((item) => (
@@ -127,17 +157,25 @@ export function Board() {
               type="button"
               title="Cancelar pedido"
               variant="tertiary"
+              className={selectedOrder?.status === 'DONE' ? 'w-full' : ''}
               onClick={handleCancelOrder}
               disabled={isLoading}
             />
 
-            <Button
-              type="button"
-              title="Concluir Pedido"
-              variant="primary"
-              className="w-60"
-              disabled={isLoading}
-            />
+            {selectedOrder?.status !== 'DONE' && (
+              <Button
+                type="button"
+                title={
+                  selectedOrder?.status === 'WAITING'
+                    ? 'Iniciar Produção'
+                    : 'Concluir Pedido'
+                }
+                variant="primary"
+                className="w-60"
+                disabled={isLoading}
+                onClick={handleUpdateOrderStatus}
+              />
+            )}
           </div>
         </div>
       </Modal>

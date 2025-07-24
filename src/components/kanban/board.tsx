@@ -1,8 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { boardItems } from '@/constants/order-status';
+
+import { cancelOrder } from '@/services/orders/cancel-order';
 import { getOrders } from '@/services/orders/get-orders';
 import type { Order, OrderStatus } from '@/types/orders';
+
 import { Button } from '../button';
 import { Modal } from '../modal';
 import { Details } from '../order/details';
@@ -14,6 +18,7 @@ type OrdersByStatus = {
 
 export function Board() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
 
@@ -49,6 +54,28 @@ export function Board() {
   const selectedOrderStatus = boardItems.find(
     (b) => b.id === selectedOrder?.status,
   );
+
+  async function handleCancelOrder() {
+    try {
+      setIsLoading(true);
+
+      const orderId = selectedOrder!._id;
+
+      await cancelOrder({ orderId });
+
+      toast.success(
+        `Pedido da mesa ${selectedOrder?.table} cancelado com sucesso!`,
+      );
+    } catch (error) {
+      console.error('Error canceling order:', error);
+
+      toast.error('Erro ao cancelar o pedido. Tente novamente mais tarde.');
+    } finally {
+      setIsLoading(false);
+      handleCloseModal();
+      await handleGetOrders();
+    }
+  }
 
   return (
     <div className="grid grid-cols-3 items-start gap-8">
@@ -96,13 +123,20 @@ export function Board() {
           {selectedOrder && <Details selectedOrder={selectedOrder} />}
 
           <div className="flex items-center justify-between gap-2">
-            <Button type="button" title="Cancelar pedido" variant="tertiary" />
+            <Button
+              type="button"
+              title="Cancelar pedido"
+              variant="tertiary"
+              onClick={handleCancelOrder}
+              disabled={isLoading}
+            />
 
             <Button
               type="button"
               title="Concluir Pedido"
               variant="primary"
               className="w-60"
+              disabled={isLoading}
             />
           </div>
         </div>

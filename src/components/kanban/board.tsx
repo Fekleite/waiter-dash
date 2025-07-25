@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import socketIO from 'socket.io-client';
 
 import { boardItems } from '@/constants/order-status';
 
@@ -36,6 +37,16 @@ export function Board() {
     const { data } = await getOrders();
 
     setOrders(data);
+  }, []);
+
+  useEffect(() => {
+    const io = socketIO('http://localhost:3333', {
+      transports: ['websocket'],
+    });
+
+    io.on('orders@new', (order: Order) => {
+      setOrders((prevOrders) => prevOrders.concat(order));
+    });
   }, []);
 
   useEffect(() => {
